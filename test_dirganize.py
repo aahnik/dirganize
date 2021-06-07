@@ -32,7 +32,16 @@ def test_dirganize():
         pass
     os.makedirs(sb)
 
-    files = ["a.mp4", "b.mp3", "c.png", "d.py", ".dotfile", "what", "e.gif"]
+    files = [
+        "a.mp4",
+        "b.mp3",
+        "c.png",
+        "d.py",
+        ".dotfile",
+        "what",
+        "e.gif",
+        ".dirganize.yml",
+    ]
     create_files(sb, *files)
 
     with open(os.path.join(sb, ".dirganize.yml"), "w") as file:
@@ -43,7 +52,9 @@ def test_dirganize():
 
     cli.verbosity_callback(value=True)
 
-    cli.main(sb)
+    assert set(os.listdir(sb)) == set(files)
+
+    cli.main(sb)  # cwd changes to sb
 
     assert set(os.listdir()) == set(
         [
